@@ -2,8 +2,6 @@
 
 const kruxSegmentsCharacterLimit = 4500;
 
-var user, segments;
-
 function retrieve(n) {
     try {
 
@@ -23,7 +21,7 @@ function retrieve(n) {
     }
 }
 
-function truncateSegmentsToMaxChars(maxChars) {
+function truncateSegmentsToMaxChars(segments, maxChars) {
     var encodedCommaLength = '%252C'.length;   // double urlencoded ","
     var truncatedSegments = [];
     var totalStringLength = 0;
@@ -39,10 +37,9 @@ function truncateSegmentsToMaxChars(maxChars) {
     return truncatedSegments;
 }
 
-user = retrieve('user');
-segments = retrieve('segs') && retrieve('segs').split(',') || [];
-
-var truncatedSegments = truncateSegmentsToMaxChars(kruxSegmentsCharacterLimit);
-
-export const retrieveUser = () => user;
-export const retrieveSegments = () => truncatedSegments;
+export const retrieveUser = () => retrieve('user');
+export const retrieveSegments = () => {
+    const segments = retrieve('segs') && retrieve('segs').split(',') || [];
+    const truncatedSegments = truncateSegmentsToMaxChars(segments, kruxSegmentsCharacterLimit);
+    return truncatedSegments;
+};

@@ -47,13 +47,11 @@ describe('The as24-ad-targeting element', () => {
         expect(setTargetingSpy.callCount).to.equal(8);
     });
 
-    it('Sets Krux parameters correctly if they are present', () => {
+    it('Sets Krux parameters correctly from localStorage or cookie', () => {
         const setTargetingSpy = sinon.spy(window.googletag.pubads(), 'setTargeting');
 
-        window.Krux = {
-            segments: 'segments',
-            user: 'user'
-        };
+        localStorage.setItem('kxuser', 'user');
+        localStorage.setItem('kxsegs', 'seg1,seg2');
 
         registerElement(tagName);
         testContainer.innerHTML += `<${tagName}>{ "a": 1 }</${tagName}>`;
@@ -61,9 +59,12 @@ describe('The as24-ad-targeting element', () => {
         window.googletag.cmd.forEach(cmd => { cmd(); });
         expect(setTargetingSpy.callCount).to.equal(3);
         expect(setTargetingSpy.firstCall.calledWith('a', ['1'])).to.be.true;
-        expect(setTargetingSpy.secondCall.calledWith('ksg', 'segments')).to.be.true;
-        expect(setTargetingSpy.thirdCall.calledWith('kuid', 'user')).to.be.true;
+        expect(setTargetingSpy.secondCall.calledWith('kuid', 'user')).to.be.true;
+        expect(setTargetingSpy.thirdCall.calledWith('ksg', ['seg1', 'seg2'])).to.be.true;
 
-        delete window.Krux;
+        localStorage.removeItem('kxuser');
+        localStorage.removeItem('kxsegs');
+
+        // delete window.Krux;
     });
 });

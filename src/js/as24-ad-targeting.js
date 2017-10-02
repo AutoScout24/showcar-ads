@@ -18,8 +18,15 @@ const registerElement = (name = 'as24-ad-targeting') => {
                 pubads.setTargeting(key, value);
             }
 
-            pubads.setTargeting('ksg', Krux.retrieveSegments());
-            pubads.setTargeting('kuid', Krux.retrieveUser());
+            const kuid = Krux.retrieveUser();
+            if (kuid) {
+                pubads.setTargeting('kuid', kuid);
+            }
+            
+            const ksg = Krux.retrieveSegments();
+            if (ksg && ksg.length > 0) {
+                pubads.setTargeting('ksg', Krux.retrieveSegments());
+            }
         });
     };
 
