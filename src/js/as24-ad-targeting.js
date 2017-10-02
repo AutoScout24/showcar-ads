@@ -1,4 +1,5 @@
 import { addCss } from './dom';
+import * as Krux from './krux';
 
 const registerElement = (name = 'as24-ad-targeting') => {
     const googletag = window.googletag || (window.googletag = { cmd: [] });
@@ -17,9 +18,14 @@ const registerElement = (name = 'as24-ad-targeting') => {
                 pubads.setTargeting(key, value);
             }
 
-            if (window.Krux) {
-                pubads.setTargeting('ksg', window.Krux.segments);
-                pubads.setTargeting('kuid', window.Krux.user);
+            const kuid = Krux.retrieveUser();
+            if (kuid) {
+                pubads.setTargeting('kuid', kuid);
+            }
+            
+            const ksg = Krux.retrieveSegments();
+            if (ksg && ksg.length > 0) {
+                pubads.setTargeting('ksg', Krux.retrieveSegments());
             }
         });
     };
