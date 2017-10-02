@@ -5,6 +5,7 @@ import  registerAdTargetingElement, { getTargetingData } from './as24-ad-targeti
 import { gptinit } from './double-click-ad-slots';
 import { loadScript, ready as domready } from './dom';
 import { loadIndexExchange } from './indexexchange';
+import * as OpenX from './openx';
 
 waitUntilAdsCanBeLoaded()
     .then(domready)
@@ -21,18 +22,9 @@ waitUntilAdsCanBeLoaded()
     })
     .then(() => {
         const tld = location.hostname.split('.').pop();
-        const useOpenX = tld === 'de' || tld === 'at' || tld === 'it' || tld === 'nl' || location.hash.indexOf('ads-use-openx') >= 0;
-        const getOpenxUrl = tld => {
-            const urls = {
-                de: 'https://scout24-d.openx.net/w/1.0/jstag?nc=4467-autoscout',
-                at: 'https://scout24-d.openx.net/w/1.0/jstag?nc=4467-autoscout-at',
-                it: 'https://scout24-d.openx.net/w/1.0/jstag?nc=4467-autoscout-it',
-                nl: 'https://scout24-d.openx.net/w/1.0/jstag?nc=4467-autoscout-nl',
-                es: 'https://scout24-d.openx.net/w/1.0/jstag?nc=4467-autoscout-es',
-            };
-
-            return urls[tld] || urls['de'];
-        };
+        const htmlLang = document.getElementsByTagName('html')[0].getAttribute('lang');
+        const lang = htmlLang.split('-')[0];
+        const useOpenX = OpenX.isEnabled(tld);
 
         if (!useOpenX) {
             loadScript('https://www.googletagservices.com/tag/js/gpt.js');
@@ -70,7 +62,8 @@ waitUntilAdsCanBeLoaded()
                 }
             });
 
-            loadScript(getOpenxUrl(tld));
+            const openxScriptUrl = OpenX.getScriptUrl(tld, lang);
+            loadScript(openxScriptUrl);
 
             var oxTimeout;
             const oxCallback = () => {
@@ -85,5 +78,3 @@ waitUntilAdsCanBeLoaded()
     .catch(e => {
         window.console.warn(e);
     });
-
-window.__temp__test__ads__ = 1;
