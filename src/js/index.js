@@ -12,7 +12,7 @@ waitUntilAdsCanBeLoaded()
     .then(() => {
         const tld = location.hostname.split('.').pop();
         
-        if (tld === 'de' || location.search.indexOf('indexexchange=1') >= 0 || document.cookie.indexOf('indexexchange=1') >= 0) {
+        if (tld === 'de' || tld === 'at' || tld === 'it' || tld === 'nl' || location.search.indexOf('indexexchange=1') >= 0 || document.cookie.indexOf('indexexchange=1') >= 0) {
             loadIndexExchange();
         }
 
