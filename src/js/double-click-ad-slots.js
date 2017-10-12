@@ -2,7 +2,7 @@ import debounce from 'lodash/debounce';
 import uuid from './uuid';
 import { isElementInViewport } from './dom';
 import googletag from './googletag';
-import { once } from './helpers';
+import * as APS from './aps';
 
 const slotsCache = {};
 
@@ -76,33 +76,41 @@ const refreshAdslotsWaitingToBeRefreshed = debounce(() => {
     if (slotsToRefresh.length > 0) {
         googletag().cmd.push(() => {
             const usingOpenX = window.OX && window.OX.dfp_bidder && window.OX.dfp_bidder.refresh && window.OX.dfp_bidder.setOxTargeting;
-
+            const useAps = APS.isEnabled();
             const openxSlotsToRefresh = slotsToRefresh.filter(s => !s.openxIgnore).map(s => s.slot);
             const allSlotsToRefresh = slotsToRefresh.map(s => s.slot);
+            const apsSlotsToRefresh = slotsToRefresh.filter(s => !s.openxIgnore);
 
-            if (usingOpenX) {
-                if (refreshOxBids) {
-                    const onrefresh = once(() => {
-                        window.OX.dfp_bidder.setOxTargeting(openxSlotsToRefresh);
-                        googletag().pubads().refresh(allSlotsToRefresh, { changeCorrelator: false });
-                    });
 
-                    const to = setTimeout(() => { onrefresh(); }, 1500);
+            const openxPromise = () => !refreshOxBids ? Promise.resolve() : new Promise((resolve) => {
+                setTimeout(resolve, 1500);
+                window.OX.dfp_bidder.refresh(resolve);
+            });
 
-                    window.OX.dfp_bidder.refresh(() => {
-                        clearTimeout(to);
-                        onrefresh();
-                    }, openxSlotsToRefresh);
-                } else {
+            const apsPromise = () => !useAps ? Promise.resolve() : new Promise(resolve => {
+                window.apstag.fetchBids({
+                    slots: apsSlotsToRefresh.map(slot => ({
+                        slotID: slot.slot.getSlotElementId(),
+                        slotName: slot.slot.getAdUnitPath(),
+                        sizes: JSON.parse(slot.slotElement.getAttribute('sizes'))
+                    })),
+                    timeout: 15000
+                }, resolve);
+            });
+
+
+            Promise.all([openxPromise(), apsPromise()]).then(() => {
+                if (usingOpenX) {
                     refreshOxBids = true;
                     window.OX.dfp_bidder.setOxTargeting(openxSlotsToRefresh);
-                    googletag().pubads().refresh(allSlotsToRefresh, { changeCorrelator: false });
                 }
 
-                return;
-            }
+                if (useAps) {
+                    window.apstag.setDisplayBids();
+                }
 
-            googletag().pubads().refresh(allSlotsToRefresh, { changeCorrelator: false });
+                googletag().pubads().refresh(allSlotsToRefresh, { changeCorrelator: false });
+            });
         });
     }
 }, 50);
