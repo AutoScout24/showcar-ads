@@ -10,12 +10,7 @@ import * as OpenX from './openx';
 waitUntilAdsCanBeLoaded()
     .then(domready)
     .then(() => {
-        const tld = location.hostname.split('.').pop();
-        
-        if (tld === 'de' || tld === 'at' || tld === 'it' || tld === 'nl' || location.search.indexOf('indexexchange=1') >= 0 || document.cookie.indexOf('indexexchange=1') >= 0) {
-            loadIndexExchange();
-        }
-
+        loadIndexExchange();
         gptinit();
         registerAdSlotElement();
         registerAdTargetingElement();
