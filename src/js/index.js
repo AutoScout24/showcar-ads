@@ -1,30 +1,28 @@
 import waitUntilAdsCanBeLoaded from './ads-can-be-loaded';
 
 import registerAdSlotElement from './as24-ad-slot';
-import  registerAdTargetingElement, { getTargetingData } from './as24-ad-targeting';
+import registerAdTargetingElement, { getTargetingData } from './as24-ad-targeting';
 import { gptinit } from './double-click-ad-slots';
 import { loadScript, ready as domready } from './dom';
 import { loadIndexExchange } from './indexexchange';
+import { loadAPS } from './aps';
 import * as OpenX from './openx';
 
 waitUntilAdsCanBeLoaded()
     .then(domready)
     .then(() => {
-        const tld = location.hostname.split('.').pop();
-        
-        if (tld === 'de' || tld === 'at' || tld === 'it' || tld === 'nl' || location.search.indexOf('indexexchange=1') >= 0 || document.cookie.indexOf('indexexchange=1') >= 0) {
-            loadIndexExchange();
-        }
-
+        loadIndexExchange();
         gptinit();
         registerAdSlotElement();
         registerAdTargetingElement();
+        loadAPS();
     })
     .then(() => {
         const tld = location.hostname.split('.').pop();
         const htmlLang = document.getElementsByTagName('html')[0].getAttribute('lang');
         const lang = htmlLang.split('-')[0];
         const useOpenX = OpenX.isEnabled(tld);
+
 
         if (!useOpenX) {
             loadScript('https://www.googletagservices.com/tag/js/gpt.js');
