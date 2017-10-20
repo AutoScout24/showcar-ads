@@ -94,7 +94,7 @@ const refreshAdslotsWaitingToBeRefreshed = debounce(() => {
                         slotName: slot.slot.getAdUnitPath(),
                         sizes: JSON.parse(slot.slotElement.getAttribute('sizes'))
                     })),
-                    timeout: 15000
+                    timeout: 2000
                 }, resolve);
             });
 
