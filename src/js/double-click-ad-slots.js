@@ -81,7 +81,6 @@ const refreshAdslotsWaitingToBeRefreshed = debounce(() => {
             const allSlotsToRefresh = slotsToRefresh.map(s => s.slot);
             const apsSlotsToRefresh = slotsToRefresh.filter(s => !s.openxIgnore);
 
-
             const openxPromise = () => !refreshOxBids ? Promise.resolve() : new Promise((resolve) => {
                 setTimeout(resolve, 1500);
                 window.OX.dfp_bidder.refresh(resolve);
@@ -92,7 +91,7 @@ const refreshAdslotsWaitingToBeRefreshed = debounce(() => {
                     slots: apsSlotsToRefresh.map(slot => ({
                         slotID: slot.slot.getSlotElementId(),
                         slotName: slot.slot.getAdUnitPath(),
-                        sizes: JSON.parse(slot.slotElement.getAttribute('sizes'))
+                        sizes: JSON.parse(slot.slotElement.getAttribute('sizes')).filter(size => JSON.stringify(size) !== '[1,1]')
                     })),
                     timeout: 2000
                 }, resolve);
