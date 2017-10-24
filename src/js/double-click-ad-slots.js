@@ -87,13 +87,14 @@ const refreshAdslotsWaitingToBeRefreshed = debounce(() => {
             });
 
             const apsPromise = () => !useAps ? Promise.resolve() : new Promise(resolve => {
+                setTimeout(resolve, 1500);
                 window.apstag.fetchBids({
                     slots: apsSlotsToRefresh.map(slot => ({
                         slotID: slot.slot.getSlotElementId(),
                         slotName: slot.slot.getAdUnitPath(),
                         sizes: JSON.parse(slot.slotElement.getAttribute('sizes')).filter(size => JSON.stringify(size) !== '[1,1]')
                     })),
-                    timeout: 2000
+                    timeout: 1500
                 }, resolve);
             });
 
