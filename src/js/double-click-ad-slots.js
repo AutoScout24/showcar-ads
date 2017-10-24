@@ -92,7 +92,9 @@ const refreshAdslotsWaitingToBeRefreshed = debounce(() => {
                     slots: apsSlotsToRefresh.map(slot => ({
                         slotID: slot.slot.getSlotElementId(),
                         slotName: slot.slot.getAdUnitPath(),
-                        sizes: JSON.parse(slot.slotElement.getAttribute('sizes')).filter(size => JSON.stringify(size) !== '[1,1]')
+                        sizes: JSON.parse(slot.slotElement.getAttribute('sizes')).filter(size => {
+                            return size[0] > 20 && size[1] > 20;
+                        })
                     })),
                     timeout: 1500
                 }, resolve);
