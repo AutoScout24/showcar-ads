@@ -81,20 +81,22 @@ const refreshAdslotsWaitingToBeRefreshed = debounce(() => {
             const allSlotsToRefresh = slotsToRefresh.map(s => s.slot);
             const apsSlotsToRefresh = slotsToRefresh.filter(s => !s.openxIgnore);
 
-
             const openxPromise = () => !refreshOxBids ? Promise.resolve() : new Promise((resolve) => {
                 setTimeout(resolve, 1500);
                 window.OX.dfp_bidder.refresh(resolve);
             });
 
             const apsPromise = () => !useAps ? Promise.resolve() : new Promise(resolve => {
+                setTimeout(resolve, 1500);
                 window.apstag.fetchBids({
                     slots: apsSlotsToRefresh.map(slot => ({
                         slotID: slot.slot.getSlotElementId(),
                         slotName: slot.slot.getAdUnitPath(),
-                        sizes: JSON.parse(slot.slotElement.getAttribute('sizes'))
+                        sizes: JSON.parse(slot.slotElement.getAttribute('sizes')).filter(size => {
+                            return size[0] > 20 && size[1] > 20;
+                        })
                     })),
-                    timeout: 15000
+                    timeout: 1500
                 }, resolve);
             });
 
