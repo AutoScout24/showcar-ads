@@ -35,6 +35,15 @@ export const debounce = (fn, delay) => {
     };
 };
 
+const tld = location.hostname.split('.').pop();
+
+export const isDE = tld === 'de';
+export const isAT = tld === 'at';
+export const isIT = tld === 'it';
+export const isNL = tld === 'nl';
+export const isBE = tld === 'be';
+export const isFR = tld === 'fr';
+
 // const logBatch = batch(tx => console.log(tx, 'ASDF'));
 //
 // logBatch('qwe1');

@@ -1,15 +1,10 @@
 import { loadScript } from './dom';
+import {isDE, isAT, isNL, isIT, isBE, isFR} from './helpers';
 
 export const loadIndexExchange = () => {
-    const tld = location.hostname.split('.').pop();
-    const isDE = tld === 'de';
-    const isAT = tld === 'at';
-    const isIT = tld === 'it';
-    const isNL = tld === 'nl';
-    const isBE = tld === 'be';
-    const isFR = tld === 'fr';
-    const isIndexExchangeEnabled = isDE || isAT || isIT || isNL || isBE || isFR
-        || location.search.indexOf('indexexchange=1') >= 0 || document.cookie.indexOf('indexexchange=1') >= 0;
+    const isCorrectCountry = isDE || isAT || isIT || isNL || isBE || isFR;
+    const isFeatureFlagOn = location.search.indexOf('indexexchange=1') >= 0 || document.cookie.indexOf('indexexchange=1') >= 0;
+    const isIndexExchangeEnabled = isCorrectCountry || isFeatureFlagOn;
 
     if (!isIndexExchangeEnabled) return false;
 
