@@ -1,5 +1,5 @@
 export const isEnabled = (domain) => {
-    return domain === 'de' || domain === 'at' || domain === 'it' || domain === 'nl' || location.hash.indexOf('ads-use-openx') >= 0;
+    return domain === 'de' || domain === 'at' || domain === 'it' || location.hash.indexOf('ads-use-openx') >= 0;
 };
 
 export const getScriptUrl = (domain, language) => {
