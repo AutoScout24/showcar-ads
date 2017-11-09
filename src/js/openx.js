@@ -1,5 +1,14 @@
 export const isEnabled = (domain) => {
-    return domain === 'de' || domain === 'at' || domain === 'it' || domain === 'nl' || location.hash.indexOf('ads-use-openx') >= 0;
+    const isFeatureShouldBeOff = location.hash.indexOf('ads-do-not-use-openx') >= 0;
+
+    if (isFeatureShouldBeOff) {
+        return false;
+    }
+
+    const isCorrectCountry = domain === 'de' || domain === 'at' || domain === 'it' || domain === 'nl';
+    const isFeatureFlagOn = location.hash.indexOf('ads-use-openx') >= 0;
+
+    return isCorrectCountry || isFeatureFlagOn;
 };
 
 export const getScriptUrl = (domain, language) => {
