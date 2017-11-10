@@ -69,7 +69,7 @@ waitUntilAdsCanBeLoaded()
                 loadScript('https://www.googletagservices.com/tag/js/gpt.js');
             };
 
-            oxTimeout = setTimeout(oxCallback, 3000);
+            oxTimeout = setTimeout(oxCallback, 1500);
             window.OX_dfp_options = { callback: oxCallback };
         }
     })
