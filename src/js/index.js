@@ -20,7 +20,8 @@ waitUntilAdsCanBeLoaded()
     })
     .then(() => {
         if (NewOpenX.isEnabled()) {
-            return NewOpenX.init().then(() => loadScript('https://www.googletagservices.com/tag/js/gpt.js'));
+            NewOpenX.init();
+            loadScript('https://www.googletagservices.com/tag/js/gpt.js');
         } else {
             const tld = location.hostname.split('.').pop();
             const htmlLang = document.getElementsByTagName('html')[0].getAttribute('lang');

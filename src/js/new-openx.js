@@ -79,6 +79,4 @@ export const init = () => {
     });
 
     window.oxhbjs = new window.HeaderBidder(bidderConfig);
-
-    return window.oxhbjs.getBids();
 };
