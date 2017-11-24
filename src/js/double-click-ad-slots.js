@@ -3,6 +3,7 @@ import uuid from './uuid';
 import { isElementInViewport } from './dom';
 import googletag from './googletag';
 import * as APS from './aps';
+import * as NewOpenX from './new-openx';
 
 const slotsCache = {};
 
@@ -75,16 +76,23 @@ const refreshAdslotsWaitingToBeRefreshed = debounce(() => {
 
     if (slotsToRefresh.length > 0) {
         googletag().cmd.push(() => {
+            const usingNewOpenX = NewOpenX.isEnabled();
             const usingOpenX = window.OX && window.OX.dfp_bidder && window.OX.dfp_bidder.refresh && window.OX.dfp_bidder.setOxTargeting;
             const useAps = APS.isEnabled();
             const openxSlotsToRefresh = slotsToRefresh.filter(s => !s.openxIgnore).map(s => s.slot);
             const allSlotsToRefresh = slotsToRefresh.map(s => s.slot);
             const apsSlotsToRefresh = slotsToRefresh.filter(s => !s.openxIgnore);
 
-            const openxPromise = () => !refreshOxBids ? Promise.resolve() : new Promise((resolve) => {
+            const openxOldRefreshPromise = () => !refreshOxBids ? Promise.resolve() : new Promise(resolve => {
                 setTimeout(resolve, 1500);
                 window.OX.dfp_bidder.refresh(resolve);
             });
+
+            let oxBids;
+
+            const openxNewrefreshPromise = () => window.oxhbjs.getBids({'adMappings': openxSlotsToRefresh}).then(bids => oxBids = bids);
+
+            const openxRefreshPromise = () => usingNewOpenX ? openxNewrefreshPromise() : openxOldRefreshPromise();
 
             const apsSlotsFiltered = apsSlotsToRefresh.map(slot => ({
                 slotID: slot.slot.getSlotElementId(),
@@ -103,10 +111,14 @@ const refreshAdslotsWaitingToBeRefreshed = debounce(() => {
             });
 
 
-            Promise.all([openxPromise(), apsPromise()]).then(() => {
-                if (usingOpenX) {
-                    refreshOxBids = true;
-                    window.OX.dfp_bidder.setOxTargeting(openxSlotsToRefresh);
+            Promise.all([openxRefreshPromise(), apsPromise()]).then(() => {
+                if (usingNewOpenX) {
+                    apsSlotsToRefresh.forEach(openxSlotToRefresh => window.oxhbjs.setOxTargetingForGoogletagSlot(openxSlotToRefresh.slot, oxBids));
+                } else {
+                    if (usingOpenX) {
+                        refreshOxBids = true;
+                        window.OX.dfp_bidder.setOxTargeting(openxSlotsToRefresh);
+                    }
                 }
 
                 if (useAps) {
