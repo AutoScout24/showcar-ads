@@ -11,11 +11,11 @@ ssh-add release_key
 mkdir temp-git
 cd temp-git
 
-git clone -b $TARGET_BRANCH --single-branch "git@github.com:AutoScout24/showcar-ads.git" .
+git clone -b ${TARGET_BRANCH} --single-branch "git@github.com:AutoScout24/showcar-ads.git" .
 git config user.name "Travis CI"
 git config user.email "${GIT_EMAIL}"
 git config push.default simple
-git checkout $TARGET_BRANCH
+git checkout ${TARGET_BRANCH}
 
 cp -r ../dist .
 cp ../package.json .
@@ -23,4 +23,4 @@ cp -r ../src .
 
 git add . -A
 git commit -am "Release"
-git push origin $TARGET_BRANCH
+git push origin ${TARGET_BRANCH}
