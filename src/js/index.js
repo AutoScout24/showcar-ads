@@ -16,9 +16,9 @@ waitUntilAdsCanBeLoaded()
         gptinit();
         registerAdSlotElement();
         registerAdTargetingElement();
+        loadAPS();
     })
     .then(() => {
-        loadAPS();
         if (NewOpenX.isEnabled()) {
             NewOpenX.init();
             loadScript('https://www.googletagservices.com/tag/js/gpt.js');
