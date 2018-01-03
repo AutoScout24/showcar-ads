@@ -1,8 +1,8 @@
 import { loadScript } from './dom';
-import {isDE, isAT, isNL, isIT, isBE, isFR} from './helpers';
+import {isDE, isAT, isNL, isIT, isBE, isFR, isES} from './helpers';
 
 export const loadIndexExchange = () => {
-    const isCorrectCountry = isDE || isAT || isIT || isNL || isBE || isFR;
+    const isCorrectCountry = isDE || isAT || isIT || isNL || isBE || isFR || isES;
     const isFeatureFlagOn = location.search.indexOf('indexexchange=1') >= 0 || document.cookie.indexOf('indexexchange=1') >= 0;
     const isIndexExchangeEnabled = isCorrectCountry || isFeatureFlagOn;
 
@@ -14,4 +14,5 @@ export const loadIndexExchange = () => {
     else if (isNL) loadScript('//js-sec.indexww.com/ht/p/185725-60876680248506.js');
     else if (isBE) loadScript('//js-sec.indexww.com/ht/p/185725-129054717428262.js');
     else if (isFR) loadScript('//js-sec.indexww.com/ht/p/185725-93868358308799.js');
+    else if (isES && isFeatureFlagOn) loadScript('//js-sec.indexww.com/ht/p/185725-80679730502062.js');
 };
