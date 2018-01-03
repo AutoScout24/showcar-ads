@@ -43,6 +43,8 @@ export const isIT = tld === 'it';
 export const isNL = tld === 'nl';
 export const isBE = tld === 'be';
 export const isFR = tld === 'fr';
+export const isES = tld === 'es';
+
 
 // const logBatch = batch(tx => console.log(tx, 'ASDF'));
 //
