@@ -44,6 +44,17 @@ export const isNL = tld === 'nl';
 export const isBE = tld === 'be';
 export const isFR = tld === 'fr';
 export const isES = tld === 'es';
+export const isBG = tld === 'bg';
+export const isCOM = tld === 'com';
+export const isTR = tld === 'tr';
+export const isUA = tld === 'ua';
+export const isCZ = tld === 'cz';
+export const isHR = tld === 'hr';
+export const isLU = tld === 'lu';
+export const isPL = tld === 'pl';
+export const isRO = tld === 'ro';
+export const isRU = tld === 'ru';
+export const isSE = tld === 'se';
 
 
 // const logBatch = batch(tx => console.log(tx, 'ASDF'));
