@@ -55,6 +55,7 @@ export const isPL = tld === 'pl';
 export const isRO = tld === 'ro';
 export const isRU = tld === 'ru';
 export const isSE = tld === 'se';
+export const isHU = tld === 'hu';
 
 
 // const logBatch = batch(tx => console.log(tx, 'ASDF'));

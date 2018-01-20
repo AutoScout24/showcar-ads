@@ -1,8 +1,8 @@
 import { loadScript } from './dom';
-import {isDE, isAT, isNL, isIT, isBE, isFR, isES, isBG, isCOM, isTR, isUA, isCZ, isHR, isLU, isPL, isRO, isRU, isSE} from './helpers';
+import {isDE, isAT, isNL, isIT, isBE, isFR, isES, isBG, isCOM, isTR, isUA, isCZ, isHR, isLU, isPL, isRO, isRU, isSE, isHU} from './helpers';
 
 export const loadIndexExchange = () => {
-    const isCorrectCountry = isDE || isAT || isIT || isNL || isBE || isFR || isES;
+    const isCorrectCountry = !isHU;
     const isFeatureFlagOn = location.search.indexOf('indexexchange=1') >= 0 || document.cookie.indexOf('indexexchange=1') >= 0;
     const isIndexExchangeEnabled = isCorrectCountry || isFeatureFlagOn;
 
