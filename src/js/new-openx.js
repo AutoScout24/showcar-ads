@@ -3,7 +3,7 @@ import { isDE } from './helpers';
 
 export const isEnabled = () => {
     const isFeatureFlagOn = location.hash.indexOf('ads-use-new-openx') >= 0;
-    return isDE || isFeatureFlagOn;
+    return isFeatureFlagOn;
 };
 
 const oxAdunitMap = {
