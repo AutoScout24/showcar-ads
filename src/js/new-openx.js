@@ -45,7 +45,7 @@ const oxAdunitMap = {
 //setting up the config for hb-lite
 const bidderConfig = {
     timeLimit: 1500,
-    deliveryDomain: 'scout24-d.openx.net',
+    deliveryDomain: 'scout24-d.openx.net1',
     singleRequest: true,
     contentTopidId: '99',
     adMappings: [],
