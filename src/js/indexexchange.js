@@ -14,7 +14,7 @@ export const loadIndexExchange = () => {
     else if (isNL) loadScript('//js-sec.indexww.com/ht/p/185725-60876680248506.js');
     else if (isBE) loadScript('//js-sec.indexww.com/ht/p/185725-129054717428262.js');
     else if (isFR) loadScript('//js-sec.indexww.com/ht/p/185725-93868358308799.js');
-    else if (isES && isFeatureFlagOn) loadScript('//js-sec.indexww.com/ht/p/185725-80679730502062.js');
+    else if (isES) loadScript('//js-sec.indexww.com/ht/p/185725-80679730502062.js');
     else if (isBG && isFeatureFlagOn) loadScript('//js-sec.indexww.com/ht/p/185725-21306986011839.js');
     else if (isCOM && isFeatureFlagOn) loadScript('//js-sec.indexww.com/ht/p/185725-16908939592252.js');
     else if (isTR && isFeatureFlagOn) loadScript('//js-sec.indexww.com/ht/p/185725-32302102478062.js');
