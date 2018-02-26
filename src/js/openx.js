@@ -16,7 +16,7 @@ export const getScriptUrl = (domain, language) => {
         de: 'https://scout24-d.openx.net/w/1.0/jstag?nc=4467-autoscout',
         at: 'https://scout24-d.openx.net/w/1.0/jstag?nc=4467-autoscout-at',
         it: 'https://scout24-d.openx.net/w/1.0/jstag?nc=4467-autoscout-it',
-        nl: 'https://scout24-d.openx.net/w/1.0/jstag?nc=4467-autoscout-nl',
+        nl: 'https://scout24-d.openx.net/w/1.0/jstag?nc=4467-autoscout-nl&our-version=1',
         es: 'https://scout24-d.openx.net/w/1.0/jstag?nc=4467-autoscout-es',
         fr: 'https://scout24-d.openx.net/w/1.0/jstag?nc=4467-autoscout-fr',
         be: 'https://scout24-d.openx.net/w/1.0/jstag?nc=4467-autoscout-be-{lang}',
