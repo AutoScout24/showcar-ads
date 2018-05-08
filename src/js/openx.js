@@ -5,7 +5,7 @@ export const isEnabled = (domain) => {
         return false;
     }
 
-    const isCorrectCountry = domain === 'nl';
+    const isCorrectCountry = false;
     const isFeatureFlagOn = location.hash.indexOf('ads-use-openx') >= 0;
 
     return isCorrectCountry || isFeatureFlagOn;
