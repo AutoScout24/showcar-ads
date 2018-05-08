@@ -3,7 +3,7 @@ import * as OpenX from '../src/js/openx';
 describe('OpenX', () => {
     it('isEnabled', () => {
         //expect(OpenX.isEnabled('de')).to.equal(true);
-        expect(OpenX.isEnabled('nl')).to.equal(true);
+        expect(OpenX.isEnabled('nl')).to.equal(false);
     });
 
     it('getScriptUrl', () => {
