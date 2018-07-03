@@ -8,6 +8,9 @@ import { loadIndexExchange } from './indexexchange';
 import { loadAPS } from './aps';
 import * as OpenX from './openx';
 import * as NewOpenX from './new-openx';
+import {recordPerfEvent} from './perf-logging';
+
+recordPerfEvent('showcarAdsLoaded');
 
 waitUntilAdsCanBeLoaded()
     .then(domready)
