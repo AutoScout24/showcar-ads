@@ -4,6 +4,7 @@ import { isElementInViewport } from './dom';
 import googletag from './googletag';
 import * as APS from './aps';
 import * as NewOpenX from './new-openx';
+import {recordPerfEvent} from './perf-logging';
 
 const slotsCache = {};
 
@@ -39,8 +40,8 @@ const register = ({ adunit, container, outOfPage, sizeMapping, slotElement, imme
         const pubads = googletag().pubads();
 
         const slot = outOfPage
-                        ? googletag().defineOutOfPageSlot(adunit, container.id).addService(pubads)
-                        : googletag().defineSlot(adunit, [], container.id).defineSizeMapping(sizeMapping).addService(pubads);
+            ? googletag().defineOutOfPageSlot(adunit, container.id).addService(pubads)
+            : googletag().defineSlot(adunit, [], container.id).defineSizeMapping(sizeMapping).addService(pubads);
 
         if(collapseEmpty) {
             slot.setCollapseEmptyDiv(true);
@@ -82,6 +83,8 @@ const refreshAdslotsWaitingToBeRefreshed = debounce(() => {
             const openxSlotsToRefresh = slotsToRefresh.filter(s => !s.openxIgnore).map(s => s.slot);
             const allSlotsToRefresh = slotsToRefresh.map(s => s.slot);
             const apsSlotsToRefresh = slotsToRefresh.filter(s => !s.openxIgnore);
+
+            recordPerfEvent('bidding_start');
 
             const openxOldRefreshPromise = () => !refreshOxBids ? Promise.resolve() : new Promise(resolve => {
                 setTimeout(resolve, 1500);
@@ -125,6 +128,9 @@ const refreshAdslotsWaitingToBeRefreshed = debounce(() => {
                     window.apstag.setDisplayBids();
                 }
 
+                recordPerfEvent('bidding_end');
+                recordPerfEvent('firstRefresh');
+
                 googletag().pubads().refresh(allSlotsToRefresh, { changeCorrelator: false });
             });
         });
@@ -163,6 +169,7 @@ export default register;
 
 export const gptinit = () => {
     googletag().cmd.push(() => {
+        recordPerfEvent('GPTReady');
         const pubads = googletag().pubads();
         pubads.enableSingleRequest();
         pubads.disableInitialLoad();

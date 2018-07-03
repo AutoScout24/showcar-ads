@@ -1,4 +1,4 @@
-export const isEnabled = (domain) => {
+export const isEnabled = () => {
     const isFeatureShouldBeOff = location.hash.indexOf('ads-do-not-use-openx') >= 0;
 
     if (isFeatureShouldBeOff) {

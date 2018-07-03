@@ -4,6 +4,7 @@ import registerDoubleclickAdslot from './double-click-ad-slots';
 import { parseAttributesIntoValidMapping, getEligibleSizesForResolution } from './size-mapping';
 
 import styles from './ad-slot-styles.scss';
+import {recordPerfEvent} from './perf-logging';
 
 const registerElement = (name = 'as24-ad-slot') => {
 
@@ -62,6 +63,7 @@ const registerElement = (name = 'as24-ad-slot') => {
                     preload
                 });
 
+                recordPerfEvent('firstSlotFound');
 
                 this.adslot.onempty = () => {
                     setAttribute(this, 'empty', '');
@@ -69,6 +71,7 @@ const registerElement = (name = 'as24-ad-slot') => {
                 };
 
                 this.adslot.onload = () => {
+                    recordPerfEvent('firstAdSlotLoaded');
                     setAttribute(this, 'loaded', '');
                     this.className += ` rnd-${ (Math.random() * 10000) | 0 }`; // this causes redraw in IE, because attribute change doesn't
                     this.dispatchEvent(new Event('ad-slot-loaded'), { bubbles: true });
