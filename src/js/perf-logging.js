@@ -1,5 +1,5 @@
 
-const remotePerformanceLoggingEnabled = true;
+const remotePerformanceLoggingEnabled = false;
 const remoteLoggingURL = 'https://osa-logging.s24-media.immobilienscout24.de/prod/logs/';
 
 const as24DetailPageRegex = /https:\/\/www.autoscout24.de\/angebote.*/;
