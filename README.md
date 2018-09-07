@@ -1,3 +1,6 @@
+!!! PLEASE NOTE: this library is deprecated now. If you still use `<as24-ad-slot>` tags on your page, please consider upgrading to the [One Scout Ad Library](https://github.com/Scout24/OSA-One-Scout-Adlib) which uses `<s24-ad-slot>` tags. !!!
+
+
 # showcar-ads
 
 This library provides a unified solution for integrating advertisements (ads) on all AS24 Tatsu web pages.
