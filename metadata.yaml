@@ -1,0 +1,13 @@
+type: ignore
+id: showcar-ads
+name: showcar-ads
+vertical: as24
+owners:
+- '#AS24-acquisition-cxp-ds@scout24.com'
+links:
+- type: repository
+  title: Git Repository
+  address: https://github.com/Scout24/showcar-ads
+- type: documentation
+  title: Readme
+  address: https://github.com/Scout24/showcar-ads/blob/master/README.md
